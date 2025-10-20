@@ -2,6 +2,7 @@
 #define LEXER_HPP
 
 #include <string>
+#include <cctype>
 
 namespace lexer {
 	// Token types
@@ -31,7 +32,7 @@ private:
 	size_t position;
     
 	void skipWhitespace() {
-		while (position < input.length() && isspace(input[position])) {
+		while (position < input.length() && isspace(static_cast<unsigned char>(input[position]))) {
 			position++;
 		}
 	}
