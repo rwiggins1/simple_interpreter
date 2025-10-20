@@ -19,25 +19,25 @@ namespace lexer {
 		T_ERROR      // Invalid token
 	};   
 
-    	struct Token {
-        	TokenType type;
-        	std::string lexeme;
+	struct Token {
+		TokenType type;
+		std::string lexeme;
 		size_t position;
-    	};
+	};
 
 class Lex {
 private:
-    	std::string input;
+	std::string input;
 	size_t position;
     
-    	void skipWhitespace() {
+	void skipWhitespace() {
 		while (position < input.length() && isspace(input[position])) {
 			position++;
 		}
-    	}
+	}
     
 public:
-    	Lex(const std::string& str) : input(str), position(0) {}
+	Lex(const std::string& str) : input(str), position(0) {}
 
 	Token peek() {
 		size_t savedPosition = position;
@@ -47,7 +47,7 @@ public:
 	}
 
 	// get next token
-    	Token get() {
+	Token get() {
 		skipWhitespace();
 
 		Token token;
@@ -111,7 +111,7 @@ public:
 		token.position = position;
 		position += token.lexeme.length();
 		return token;
-    	}
+	}
 };
 }
 

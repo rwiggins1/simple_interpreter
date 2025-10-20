@@ -118,10 +118,7 @@ bool A(){
 	else if (token.type == lexer::T_OPAREN) {
 		if (IT()) {
 			lexer::Token token = Lex->get();
-			if (token.type == lexer::T_CPAREN) {
-				return true;
-			}
-			return false;
+			return (token.type == lexer::T_CPAREN) ? true: false;
 		}
 		return false;
 	}
