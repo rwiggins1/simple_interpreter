@@ -39,13 +39,15 @@ private:
 public:
     	Lex(const std::string& str) : input(str), position(0) {}
 
-	std::string get() {
-		Token token = getToken();
-		return token.lexeme;
+	Token peek() {
+		size_t savedPosition = position;
+		Token token = get();
+		position = savedPosition;
+		return token;
 	}
-	
+
 	// get next token
-    	Token getToken() {
+    	Token get() {
 		skipWhitespace();
 
 		Token token;
