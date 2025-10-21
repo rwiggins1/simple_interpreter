@@ -97,14 +97,12 @@ bool AT_Tail(){
 }
 
 bool L(){
-	if (A()) {
-		return true;
-	}
+	// Check for '~' first before calling A()
 	lexer::Token token = Lex->get();
 	if (token.type == lexer::TokenType::NOT) {
 		return L();
 	}
-	return false;
+	return A() ? true : false;
 }
 
 bool A(){
