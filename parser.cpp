@@ -18,7 +18,7 @@ bool B(lexer::Lex& lexer){
 
 	if (IT()) {
 		lexer::Token token = Lex->get();
-		return (token.type == lexer::T_PERIOD) ? true: false;
+		return (token.type == lexer::TokenType::PERIOD) ? true: false;
 	}
 	return false;
 }
@@ -31,15 +31,15 @@ bool IT(){
 }
 bool IT_Tail(){
 	lexer::Token token = Lex->peek();
-	if (token.type == lexer::T_IMPLIES) {
+	if (token.type == lexer::TokenType::IMPLIES) {
 		Lex->get();
 		if (OT()) {
 			return IT_Tail();
 		}
 		return false;
 	}
-	else if (token.type == lexer::T_PERIOD || token.type == lexer::T_CPAREN 
-		|| token.type == lexer::T_EOF){
+	else if (token.type == lexer::TokenType::PERIOD || token.type == lexer::TokenType::CPAREN 
+		|| token.type == lexer::TokenType::T_EOF){
 		return true;
 	}
 	else {
@@ -55,15 +55,15 @@ bool OT(){
 }
 bool OT_Tail(){
 	lexer::Token token = Lex->peek();
-	if(token.type == lexer::T_OR) {
+	if(token.type == lexer::TokenType::OR) {
 		Lex->get();
 		if (AT()) {
 			return OT_Tail();
 		}
 		return false;
 	}
-	else if (token.type == lexer::T_IMPLIES || token.type == lexer::T_PERIOD 
-		|| token.type == lexer::T_CPAREN || token.type == lexer::T_EOF) {
+	else if (token.type == lexer::TokenType::IMPLIES || token.type == lexer::TokenType::PERIOD 
+		|| token.type == lexer::TokenType::CPAREN || token.type == lexer::TokenType::T_EOF) {
 		return true;
 	}
 	else {
@@ -79,16 +79,16 @@ bool AT(){
 }
 bool AT_Tail(){
 	lexer::Token token = Lex->peek();
-	if (token.type == lexer::T_AND) {
+	if (token.type == lexer::TokenType::AND) {
 		Lex->get();
 		if (L()) {
 			return AT_Tail();
 		}
 		return false;
 	}
-	else if (token.type == lexer::T_OR || token.type == lexer::T_IMPLIES
-		|| token.type == lexer::T_PERIOD || token.type == lexer::T_CPAREN 
-		|| token.type == lexer::T_EOF) {
+	else if (token.type == lexer::TokenType::OR || token.type == lexer::TokenType::IMPLIES
+		|| token.type == lexer::TokenType::PERIOD || token.type == lexer::TokenType::CPAREN 
+		|| token.type == lexer::TokenType::T_EOF) {
 		return true;
 	}
 	else {
@@ -101,7 +101,7 @@ bool L(){
 		return true;
 	}
 	lexer::Token token = Lex->get();
-	if (token.type == lexer::T_NOT) {
+	if (token.type == lexer::TokenType::NOT) {
 		return L();
 	}
 	return false;
@@ -109,16 +109,16 @@ bool L(){
 
 bool A(){
 	lexer::Token token = Lex->get();
-	if (token.type == lexer::T_TRUE) {
+	if (token.type == lexer::TokenType::TRUE) {
 		return true;
 	}
-	else if (token.type == lexer::T_FALSE) {
+	else if (token.type == lexer::TokenType::FALSE) {
 		return true;
 	}
-	else if (token.type == lexer::T_OPAREN) {
+	else if (token.type == lexer::TokenType::OPAREN) {
 		if (IT()) {
 			lexer::Token token = Lex->get();
-			return (token.type == lexer::T_CPAREN) ? true: false;
+			return (token.type == lexer::TokenType::CPAREN) ? true: false;
 		}
 		return false;
 	}
