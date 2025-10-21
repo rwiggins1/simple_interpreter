@@ -29,16 +29,16 @@ namespace lexer {
 class Lex {
 private:
 	std::string input;
-	size_t position;
+	size_t position = 0;
     
-	void skipWhitespace() {
+	void skipWhitespace() noexcept {
 		while (position < input.length() && isspace(static_cast<unsigned char>(input[position]))) {
 			position++;
 		}
 	}
     
 public:
-	Lex(const std::string& str) : input(str), position(0) {}
+	explicit Lex(const std::string& str) : input(str) {}
 
 	Token peek() {
 		size_t savedPosition = position;
