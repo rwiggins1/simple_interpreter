@@ -22,7 +22,7 @@ bool B(lexer::Lex& lexer){
 
 	if (IT()) {
 		lexer::Token token = Lex->get();
-		return (token.type == lexer::TokenType::PERIOD) ? true: false;
+		return (token.type == lexer::TokenType::PERIOD);
 	}
 	return false;
 }
@@ -130,7 +130,7 @@ bool L(){
 		}
 		return false;
 	}
-	return A() ? true : false;
+	return A();
 }
 
 bool A(){
@@ -146,7 +146,7 @@ bool A(){
 	else if (token.type == lexer::TokenType::OPAREN) {
 		if (IT()) {
 			lexer::Token token = Lex->get();
-			return (token.type == lexer::TokenType::CPAREN) ? true: false;
+			return (token.type == lexer::TokenType::CPAREN);
 		}
 		return false;
 	}
