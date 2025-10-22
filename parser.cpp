@@ -1,8 +1,12 @@
 #include "lexer.hpp"
+#include <stack>
 #include <stdexcept>
 
 namespace parser {
 static lexer::Lex* Lex;
+
+std::stack<bool> values;
+
 
 bool IT();
 bool IT_Tail();
@@ -34,6 +38,12 @@ bool IT_Tail(){
 	if (token.type == lexer::TokenType::IMPLIES) {
 		Lex->get();
 		if (OT()) {
+			
+			bool right = values.top(); values.pop();
+			bool left = values.top(); values.pop();
+			bool result = !left || right;
+			values.push(result);
+
 			return IT_Tail();
 		}
 		return false;
@@ -58,6 +68,12 @@ bool OT_Tail(){
 	if(token.type == lexer::TokenType::OR) {
 		Lex->get();
 		if (AT()) {
+			
+			bool right = values.top(); values.pop();
+			bool left = values.top(); values.pop();
+			bool result = left || right;
+			values.push(result);
+
 			return OT_Tail();
 		}
 		return false;
@@ -82,6 +98,12 @@ bool AT_Tail(){
 	if (token.type == lexer::TokenType::AND) {
 		Lex->get();
 		if (L()) {
+			
+			bool right = values.top(); values.pop();
+			bool left = values.top(); values.pop();
+			bool result = left && right;
+			values.push(result);
+
 			return AT_Tail();
 		}
 		return false;
@@ -101,7 +123,12 @@ bool L(){
 	lexer::Token token = Lex->peek();
 	if (token.type == lexer::TokenType::NOT) {
 		Lex->get();
-		return L();
+		if (L()) {
+			bool val = values.top(); values.pop();
+			values.push(!val);
+			return true;
+		}
+		return false;
 	}
 	return A() ? true : false;
 }
@@ -109,9 +136,11 @@ bool L(){
 bool A(){
 	lexer::Token token = Lex->get();
 	if (token.type == lexer::TokenType::TRUE) {
+		values.push(true);
 		return true;
 	}
 	else if (token.type == lexer::TokenType::FALSE) {
+		values.push(false);
 		return true;
 	}
 	else if (token.type == lexer::TokenType::OPAREN) {
@@ -122,5 +151,13 @@ bool A(){
 		return false;
 	}
 	return false;
+}
+
+[[nodiscard]] static bool getResult() {
+	if (values.empty()) {
+		throw std::logic_error("Cannot get result - no value on stack");
+	}
+
+	return values.top();
 }
 }
