@@ -5,7 +5,7 @@
 
 
 int main() {
-	std::string input = "F->F."; // true
+	std::string input = "TvF."; // true ~TvF
 	lexer::Lex Lex(input);
 
 	bool isSyntax = parser::B(Lex);

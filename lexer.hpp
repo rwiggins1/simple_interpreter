@@ -39,7 +39,8 @@ private:
     
 public:
 	explicit Lex(const std::string& str) : input(str) {}
-
+	
+	// get next Token without advancing
 	[[nodiscard]] Token peek() {
 		size_t savedPosition = position;
 		Token token = get();

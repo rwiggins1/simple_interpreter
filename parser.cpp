@@ -5,6 +5,7 @@
 namespace parser {
 static lexer::Lex* Lex;
 
+// stack evaluator for semantics
 std::stack<bool> values;
 
 
@@ -17,6 +18,7 @@ bool AT_Tail();
 bool L();
 bool A();
 
+// Bool statement
 bool B(lexer::Lex& lexer){
 	Lex = &lexer;
 
@@ -27,6 +29,7 @@ bool B(lexer::Lex& lexer){
 	return false;
 }
 
+// Imply
 bool IT(){
 	if (OT()) {
 		return IT_Tail();
@@ -57,6 +60,7 @@ bool IT_Tail(){
 	}
 }
 
+// OR
 bool OT(){
 	if (AT()) {
 		return OT_Tail();
@@ -87,6 +91,7 @@ bool OT_Tail(){
 	}
 }
 
+// AND
 bool AT(){
 	if (L()) {
 		return AT_Tail();
@@ -118,6 +123,7 @@ bool AT_Tail(){
 	}
 }
 
+// Literal
 bool L(){
 	// Check for '~' first before calling A()
 	lexer::Token token = Lex->peek();
@@ -133,6 +139,7 @@ bool L(){
 	return A();
 }
 
+// Atom
 bool A(){
 	lexer::Token token = Lex->get();
 	if (token.type == lexer::TokenType::TRUE) {
