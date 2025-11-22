@@ -2,6 +2,8 @@
 BUILD_DIR := build
 EXECUTABLE := interpreter
 
+.PHONY: all build clean run
+
 all: build
 
 # Build project
