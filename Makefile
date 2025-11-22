@@ -1,7 +1,7 @@
 # Configuration
 BUILD_DIR := build
 EXECUTABLE := interpreter
-SRC_DIR := simple_interpreter
+SRC_DIR := src
 
 .PHONY: all build clean run
 
