@@ -1,6 +1,6 @@
-#ifndef LEXER_HPP
-#define LEXER_HPP
+#pragma once
 
+#include <cstddef>
 #include <string>
 #include <cctype>
 
@@ -28,11 +28,12 @@ namespace lexer {
 
 class Lex {
 private:
-	std::string input;
+	const std::string input;
+	std::size_t inputLength = input.length();
 	size_t position = 0;
     
 	void skipWhitespace() noexcept {
-		while (position < input.length() && isspace(static_cast<unsigned char>(input[position]))) {
+		while (position < inputLength && isspace(static_cast<unsigned char>(input[position]))) {
 			position++;
 		}
 	}
@@ -54,7 +55,7 @@ public:
 
 		Token token;
 
-		if (position >= input.length()) {
+		if (position >= inputLength) {
 			token.type = TokenType::T_EOF;
 			token.position = position;
 			return token;
@@ -95,7 +96,7 @@ public:
 				token.lexeme = ".";
 				break;
 			case '-':
-				if (position + 1 < input.length() && input[position + 1] == '>') {
+				if (position + 1 < inputLength && input[position + 1] == '>') {
 					token.type = TokenType::IMPLIES;
 					token.lexeme = "->";
 				}
@@ -117,4 +118,3 @@ public:
 };
 }
 
-#endif
