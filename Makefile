@@ -1,6 +1,7 @@
 # Configuration
 BUILD_DIR := build
 EXECUTABLE := interpreter
+SRC_DIR := simple_interpreter
 
 .PHONY: all build clean run
 
@@ -26,3 +27,9 @@ run: build
 	@echo "Running $(EXECUTABLE):"
 	@echo "----------------------------"
 	@./$(BUILD_DIR)/$(EXECUTABLE)
+
+# Lint code with clang-tidy
+lint:
+	@echo "Running clang-tidy on source files..."
+	@find $(SRC_DIR) -name "*.cpp" -o -name "*.hpp" | xargs clang-tidy -p $(BUILD_DIR)
+	@echo "Lint complete!"

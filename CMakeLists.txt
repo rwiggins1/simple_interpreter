@@ -14,15 +14,17 @@ add_compile_options(-Wall -Wextra -pedantic)
 # Debug symbols
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
+include_directories(src)
+
 # Source files
 set(SOURCES
-    main.cpp
-    test.cpp
+    src/main.cpp
+    test/test.cpp
 )
 
 # Build executables
-add_executable(interpreter main.cpp)
-add_executable(test test.cpp)
+add_executable(interpreter src/main.cpp)
+add_executable(test test/test.cpp)
 
 # print useful info
 message(STATUS "Building simple_interpreter")
