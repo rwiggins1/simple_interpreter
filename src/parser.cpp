@@ -51,13 +51,11 @@ bool IT_Tail(){
 		}
 		return false;
 	}
-	else if (token.type == lexer::TokenType::PERIOD || token.type == lexer::TokenType::CPAREN 
+	if (token.type == lexer::TokenType::PERIOD || token.type == lexer::TokenType::CPAREN 
 		|| token.type == lexer::TokenType::T_EOF){
 		return true;
 	}
-	else {
-		throw std::invalid_argument("expecting '->', '.', or ')' but got: " + token.lexeme);
-	}
+	throw std::invalid_argument("expecting '->', '.', or ')' but got: " + token.lexeme);
 }
 
 // OR
@@ -82,13 +80,11 @@ bool OT_Tail(){
 		}
 		return false;
 	}
-	else if (token.type == lexer::TokenType::IMPLIES || token.type == lexer::TokenType::PERIOD 
+	if (token.type == lexer::TokenType::IMPLIES || token.type == lexer::TokenType::PERIOD 
 		|| token.type == lexer::TokenType::CPAREN || token.type == lexer::TokenType::T_EOF) {
 		return true;
 	}
-	else {
-		throw std::invalid_argument("expecting 'v', '->', '.', or ')' but got: " + token.lexeme);
-	}
+	throw std::invalid_argument("expecting 'v', '->', '.', or ')' but got: " + token.lexeme);
 }
 
 // AND
@@ -113,14 +109,12 @@ bool AT_Tail(){
 		}
 		return false;
 	}
-	else if (token.type == lexer::TokenType::OR || token.type == lexer::TokenType::IMPLIES
+	if (token.type == lexer::TokenType::OR || token.type == lexer::TokenType::IMPLIES
 		|| token.type == lexer::TokenType::PERIOD || token.type == lexer::TokenType::CPAREN 
 		|| token.type == lexer::TokenType::T_EOF) {
 		return true;
 	}
-	else {
-		throw std::invalid_argument("expecting '^', 'v', '->', '.', or ')' but got " + token.lexeme);
-	}
+	throw std::invalid_argument("expecting '^', 'v', '->', '.', or ')' but got " + token.lexeme);
 }
 
 // Literal
@@ -146,11 +140,11 @@ bool A(){
 		values.push(true);
 		return true;
 	}
-	else if (token.type == lexer::TokenType::FALSE) {
+	if (token.type == lexer::TokenType::FALSE) {
 		values.push(false);
 		return true;
 	}
-	else if (token.type == lexer::TokenType::OPAREN) {
+	if (token.type == lexer::TokenType::OPAREN) {
 		if (IT()) {
 			lexer::Token token = Lex->get();
 			return (token.type == lexer::TokenType::CPAREN);
